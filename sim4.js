@@ -28,7 +28,7 @@ var spoCount = 0;
 var couCount = 0;
 var result = [];
 function setTime(){
-	var speed = 10; //Change this would change the display speed of each word
+	var speed = 2000; //Change this would change the display speed of each word
 	var time = setInterval(startTime, speed);
 	function startTime(){
 		if(aniCount === 3 && cloCount === 3 && colCount === 3 &&
