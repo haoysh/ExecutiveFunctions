@@ -27,8 +27,21 @@ var colCount = 0;
 var spoCount = 0;
 var couCount = 0;
 var result = [];
+var userInputs = [];
+/* var button = document.getElementById('show_button')
+button.addEventListener('click',hideshow,false);
+
+function hideshow() {
+	document.getElementById('hidden-div').style.display = 'block'; 
+	this.style.display = 'none'
+}    */
+function start(){
+	setTime();
+	//proceedInput();
+}
+//proceedInput();
 function setTime(){
-	var speed = 2000; //Change this would change the display speed of each word
+	var speed = 100; //Change this would change the display speed of each word
 	var time = setInterval(startTime, speed);
 	function startTime(){
 		if(aniCount === 3 && cloCount === 3 && colCount === 3 &&
@@ -70,32 +83,151 @@ function setTime(){
 		}
 	}
 }
+
+//function outputname(){
+//	var x = document.getElementById("form1");
+//	var y = x.elements["name"].value;
+//	userInputs.push(y);
+//}
 //Displaying the words for 2 seconds 
-setTime();
+
+
 //User puts an input 
 function proceedInput(){
 	document.getElementById("ask").innerHTML = 'What was the last item for each category?';
-	var txt = document.createElement("input");
-	var answer1 = txt.createElement("button");
-	//var answer2 = document.createElement("input");
-	//var answer3 = document.createElement("input");
-	//var answer4 = document.createElement("input");
-	//var answer5 = document.createElement("input");
-	button.onclick = function() {
-	  //var name = 
-	  alert('Hello ' + name + ', nice to see you!');
-	}
-	document.body.appendChild(answer1) + "asdfn";
-	//document.body.appendChild(answer2);
-	//document.body.appendChild(answer3);
-	//document.body.appendChild(answer4);
-	//document.body.appendChild(answer5);
-	//var x = answer1.form;
-	var button = document.querySelector('button');
-
+	var countryIn = document.createElement("form");
+	var colorIn = document.createElement("form");
+	var sportsIn = document.createElement("form");
+	var clothesIn = document.createElement("form");
+	var animalsIn = document.createElement("form");
+	//answer1.setAttribute('method', "post");
+	//answer1.setAttribute('action', "submit.php
+	countryIn.setAttribute('id', 'form1');
+	countryIn.setAttribute('action', '#');
+	countryIn.setAttribute('name', 'country');
+	colorIn.setAttribute('id', 'form2');
+	colorIn.setAttribute('action', '#');
+	colorIn.setAttribute('name', 'color');
+	sportsIn.setAttribute('id', 'form3');
+	sportsIn.setAttribute('action', '#');
+	sportsIn.setAttribute('name', 'sports');
+	clothesIn.setAttribute('id', 'form4');
+	clothesIn.setAttribute('action', '#');
+	clothesIn.setAttribute('name', 'cloth');
+	animalsIn.setAttribute('id', 'form5');
+	animalsIn.setAttribute('action', '#');
+	animalsIn.setAttribute('name', 'animal');
 	
-}
-function myFunc(){
-	var text = document.getElementById('input').value;
-}
+	var i1 = document.createElement("input");
+	i1.type = "text";
+	i1.name = "user_ans1";
+	i1.id = "i1";
+	
+	
+	var s = document.createElement("input");
+	s.type = "submit";
+	s.value = "Submit";
+	
+	var c = document.createElement("p");
+	c.innerHTML = "Country?";
+	
+	countryIn.appendChild(c);
+	countryIn.appendChild(i1);
+	countryIn.appendChild(s);
+	
+	var i2 = document.createElement("input");
+	i2.type = "text";
+	i2.name = "user_ans2";
+	i2.id = "i2";
+	//i2.setAttribute('action', "#");
+	
+	var s2 = document.createElement("input");
+	s2.type = "submit";
+	s2.value = "Submit";
+	
+	c = document.createElement("p");
+	c.innerHTML = "Color?";
+	
+	colorIn.appendChild(c);
+	colorIn.appendChild(i2);
+	colorIn.appendChild(s2);
+	
+	var i3 = document.createElement("input");
+	i3.type = "text";
+	i3.name = "user_ans3";
+	i3.id = "i3";
+	//i3.setAttribute('action', "#");
+	
+	var s3 = document.createElement("input");
+	s3.type = "submit";
+	s3.value = "Submit";
+	
+	c = document.createElement("p");
+	c.innerHTML = "Sports?";
+	
+	sportsIn.appendChild(c);
+	sportsIn.appendChild(i3);
+	sportsIn.appendChild(s3);
+	
+	var i4 = document.createElement("input");
+	i4.type = "text";
+	i4.name = "user_ans4";
+	i4.id = "i4";
+	//i4.setAttribute('action', "#");
+	
+	var s4 = document.createElement("input");
+	s4.type = "submit";
+	s4.value = "Submit";
+	
+	c = document.createElement("p");
+	c.innerHTML = "Cloth?";
+	
+	clothesIn.appendChild(c);
+	clothesIn.appendChild(i4);
+	clothesIn.appendChild(s4);
+	
+	var i5 = document.createElement("input");
+	i5.type = "text";
+	i5.name = "user_ans5";
+	i5.id = "i5";
+	//i5.setAttribute('action', "#");
+	
+	var s5 = document.createElement("input");
+	s5.type = "submit";
+	s5.value = "Submit";
+	
+	c = document.createElement("p");
+	c.innerHTML = "Animal?";
+	
+	animalsIn.appendChild(c);
+	animalsIn.appendChild(i5);
+	animalsIn.appendChild(s5);
+	
+	//document.getElementById("i1").innerHTML = 'Country?'; 
+	document.getElementsByTagName('body')[0].appendChild(countryIn);
+	//document.getElementById("color?").innerHTML = 'Color?'; 
+	document.getElementsByTagName('body')[0].appendChild(colorIn);
+	//document.getElementById("sports").innerHTML = 'Sports?'; 
+	document.getElementsByTagName('body')[0].appendChild(sportsIn);
+	//document.getElementById("cloth?").innerHTML = 'Cloth?'; 
+	document.getElementsByTagName('body')[0].appendChild(clothesIn);
+	//document.getElementById("animal?").innerHTML = 'Animal?'; 
+	document.getElementsByTagName('body')[0].appendChild(animalsIn);
+	//document.body.appendChild(answer1); //- not dynamic
+/* 	var ans1 = document.getElementById("i1");
+	var ans2 = document.getElementById("i2");
+	var ans3 = document.getElementById("i3");
+	var ans4 = document.getElementById("i4");
+	var ans5 = document.getElementById("i5");
+	
+	userInputs.push(ans1.value);
+	userInputs.push(ans2.value);
+	userInputs.push(ans3.value);
+	userInputs.push(ans4.value);
+	userInputs.push(ans5.value); */
+}	
+
+//function myFunc(){
+//	var text = document.getElementById('input').value;
+//}
 //var answer = window.confirm('Type the answers');
