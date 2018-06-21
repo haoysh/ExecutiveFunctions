@@ -4,21 +4,17 @@ $("document").ready(function(){
 	var userInputs = [];	//User's last 5 words
 	var mode = 3; 			//Indicates the mode. Mode 3 = answering 3 categories. 4 = answering 4 catergories.
 	var trial = 0;
-	var index = 0;
 	var score = 0;
+	//const ds = new lab.data.Store();
+	var tempList = createList();
 	
-	$("#Answering").hide();
-	//$("#instruction").append("<p>There are five runs in this part. You will see a sequence of words on the center of the screen. All words belong to five chosen categories: animals, colors, clothes, countries, and sports. Exactly three of these categories will be present in each run, but the words' categories vary from run to run. At the end of each run, you will be asked to type the last word in each of those <b>three</b> categories. The category of every word will be hinted at the bottom of the screen. Please do your best.</p>");
-	$("#Score").hide();
-	$("#done").hide();
-	$("#dataTable").hide();
-	 
-	$(".start").click(function(){
-        
-		$("#StartSimulation").hide();
-		$("#Trials").hide();
-		display();
-    });
+
+	
+
+
+	
+
+	
 	
 	function createList(){
 		var animals = ["alligator","ant","bear","bee","bird","camel","cat","cheetah","chicken","chimpanzee","cow","crocodile","deer","dog","dolphin","duck","eagle","elephant","fish","fly","fox","frog","giraffe","goat","goldfish","hamster","hippopotamus","horse","kangaroo","kitten","lion","lobster","monkey","octopus","owl","panda","pig","puppy","rabbit","rat","scorpion","seal","shark","sheep","snail","snake","spider","squirrel","tiger","turtle","wolf","zebra"];
@@ -80,12 +76,11 @@ $("document").ready(function(){
 		}
 	}
 	
-	
-
-		
-	function display(){
+	const display = new function() {
 		trial++;
-		if (trial > 1){
+		
+		
+		if (trial == 5){
 			$("#instruction").text("");
 			$("#instruction").append("<p>There are five runs in this part. You will see a sequence of words on the center of the screen. All words belong to five chosen categories: animals, colors, clothes, countries, and sports. Exactly three of these categories will be present in each run, but the words' categories vary from run to run. At the end of each run, you will be asked to type the last word in each of those <b>four</b> categories. The category of every word will be hinted at the bottom of the screen. Please do your best.</p>");
 		}
@@ -93,7 +88,7 @@ $("document").ready(function(){
 		$("#TrialNum").text("Trial " + (trial));
 		if(trial === 6) mode = 4;
 		var list = createList();
-		var speed = 500; 			//Change this would change the display speed of each word
+		var speed = 2000; 			//Change this would change the display speed of each word
 		var time = setInterval(startTime, speed);
 		console.log(all.length);
 		function startTime(){
@@ -101,8 +96,8 @@ $("document").ready(function(){
 				if(list[0].count === 3 && list[1].count === 3 && list[2].count === 3){
 					clearInterval(time);
 					document.getElementById("name").innerHTML = "";
-					//document.getElementById("Type").innerHTML = '';
-					$("#words").text('');
+					document.getElementById("Type").innerHTML = '';
+					
 					proceedInput(list);
 					
 					return;
@@ -114,8 +109,8 @@ $("document").ready(function(){
 					$("#name").text(all[rand].name).fadeOut(1000);
 					
 					//$("#name").fadeIn();
-					//document.getElementById("Type").innerHTML = 'This word is of category: ' + all[rand].category;
-					$("#words").text('This word is of category: ' + all[rand].category);
+					document.getElementById("Type").innerHTML = 'This word is of category: ' + all[rand].category;
+					
 					console.log(all[rand].name);
 					console.log("first count: " + list[0].count + "second count: " + list[1].count + " third count: " + list[2].count);
 					switch(all[rand].category){
@@ -200,35 +195,20 @@ $("document").ready(function(){
 		index = tempList.length;
 		//TempList might not needed since taking out as a separate function for button click did not solve the problem of stacking labels.
 	}
+	const study = new lab.flow.Sequence({
 	
-	$(".submit").click(function(){
-		for(i = 0; i < tempList.length; i++){
-			var value = $("#input" + i).val().trim().toLowerCase();
-			console.log(value);
-			userInputs.push({'label' : tempList[i].label,
-							 'value' : value});
-			$("#dataTable").append("<tr> <td> " + trial + " </td> <td> " + value + " </td> <td> " + result[i] + " </td> </tr>");
-		}
-		$("#Testing").remove();
-		$("#Answering").hide();
-		$("#TrialNum").hide();
-		console.log(userInputs);
-		lastPart();
-		console.log(trial);
-		if (trial == 5){
-			$("#StartSimulation").show();
-		} else if (trial < 10){
-			//$("#StartSimulation").show();
-			display();
-		}
+		content: [
+			new lab.html.Screen({content: "There are five runs in this part. You will see a sequence of words on the center of the screen. All words belong to five chosen categories: animals, colors, clothes, countries, and sports. Exactly three of these categories will be present in each run, but the words' categories vary from run to run. At the end of each run, you will be asked to type the last word in each of those <b>three</b> categories. The category of every word will be hinted at the bottom of the screen. Please do your best." +
+			"<button onclick='display'>Start</button>"})
+			
+		]
 	});
-	
 	//Prints how much of the items he/she got it right
 	//Ask for a retrial/re-start
 	function lastPart(){
 		if(trial == 10){
 			$("#done").show();
-			$("#correct").text("You have completed the task!");
+			$("#correct").text("You got " + score + " correct!");
 		}
 		var correct = compareResult(mode); //mode 1 = 3 cats 2 = 4 cats;
 		score += correct;
@@ -256,84 +236,6 @@ $("document").ready(function(){
 		
 		return score1;
 	}
-	
-	function exportTableToCSV($table, filename) {
-
-		var $rows = $table.find('tr:has(td)'),
-
-		  // Temporary delimiter characters unlikely to be typed by keyboard
-		  // This is to avoid accidentally splitting the actual contents
-		  tmpColDelim = String.fromCharCode(11), // vertical tab character
-		  tmpRowDelim = String.fromCharCode(0), // null character
-
-		  // actual delimiter characters for CSV format
-		  colDelim = '","',
-		  rowDelim = '"\r\n"',
-
-		  // Grab text from table into CSV formatted string
-		  csv = '"' + $rows.map(function(i, row) {
-			var $row = $(row),
-			  $cols = $row.find('td');
-
-			return $cols.map(function(j, col) {
-			  var $col = $(col),
-				text = $col.text();
-
-			  return text.replace(/"/g, '""'); // escape double quotes
-
-			}).get().join(tmpColDelim);
-
-		  }).get().join(tmpRowDelim)
-		  .split(tmpRowDelim).join(rowDelim)
-		  .split(tmpColDelim).join(colDelim) + '"';
-
-		// Deliberate 'false', see comment below
-		if (false && window.navigator.msSaveBlob) {
-
-		  var blob = new Blob([decodeURIComponent(csv)], {
-			type: 'text/csv;charset=utf8'
-		  });
-
-		  // Crashes in IE 10, IE 11 and Microsoft Edge
-		  // See MS Edge Issue #10396033
-		  // Hence, the deliberate 'false'
-		  // This is here just for completeness
-		  // Remove the 'false' at your own risk
-		  window.navigator.msSaveBlob(blob, filename);
-
-		} else if (window.Blob && window.URL) {
-		  // HTML5 Blob        
-		  var blob = new Blob([csv], {
-			type: 'text/csv;charset=utf-8'
-		  });
-		  var csvUrl = URL.createObjectURL(blob);
-
-		  $(this)
-			.attr({
-			  'download': filename,
-			  'href': csvUrl
-			});
-		} else {
-		  // Data URI
-		  var csvData = 'data:application/csv;charset=utf-8,' + encodeURIComponent(csv);
-
-		  $(this)
-			.attr({
-			  'download': filename,
-			  'href': csvData,
-			  'target': '_blank'
-			});
-		}
-	  }
-
-	  // This must be a hyperlink
-	 $(".export").on('click', function(event) {
-		// CSV
-		var args = [$('#dvData>table'), 'export.csv'];
-
-		exportTableToCSV.apply(this, args);
-
-		// If CSV, don't do event.preventDefault() or return false
-		// We actually need this to be a typical hyperlink
-	});
+	study.run();
 });
+
